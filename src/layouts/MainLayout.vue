@@ -15,15 +15,8 @@ onErrorCaptured((err) => {
 
 <template>
     <div>
-        <RouterView v-slot="{ Component }">
-            <template v-if="Component">
-                <Suspense timeout="0">
-                    <component :is="Component"></component>
-                    <template #fallback>
-                        <div>Loading...123</div>
-                    </template>
-                </Suspense>
-            </template>
+        <RouterView>
+
         </RouterView>
         <Toaster />
     </div>

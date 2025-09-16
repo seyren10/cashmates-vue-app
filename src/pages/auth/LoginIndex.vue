@@ -6,6 +6,9 @@ import { useAuthMutations } from '@/features/auth/mutations';
 import LoginErrorAlert from './components/LoginErrorAlert.vue';
 import { computed } from 'vue';
 import type { CashmateError } from '@/types/http';
+import AppButtonLoaderSwap from '@/components/app/AppButtonLoaderSwap.vue';
+import { Home } from 'lucide-vue-next';
+import { useNavigation } from '@/composables/use-navigation';
 
 
 const { loginMutation: { mutate, error, isError, isPending } } = useAuthMutations()
@@ -14,6 +17,7 @@ const errorMessage = computed(() => {
     const err = error.value as CashmateError
     return err.response?.data.message
 })
+const { isPending: isNavigating } = useNavigation();
 </script>
 <template>
     <div class="h-screen grid place-content-center">
@@ -40,7 +44,12 @@ const errorMessage = computed(() => {
                     <a target="_blank" href="https://icons8.com/icon/V5cGWnc9R4xj/google">Google</a> icon by <a
                         target="_blank" href="https://icons8.com">Icons8</a>
                 </div>
-                <RouterLink :to="{ name: 'groups' }">groups</RouterLink>
+                <RouterLink :to="{ name: 'groups' }">
+                    <AppButtonLoaderSwap :loading="isNavigating">
+                        <Home />
+                    </AppButtonLoaderSwap>
+                    groups
+                </RouterLink>
             </CardFooter>
         </Card>
     </div>
