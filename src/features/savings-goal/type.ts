@@ -11,7 +11,7 @@ export type SavingsGoal = WithTimestamp & {
   current_balance: number
 }
 
-export type SavingsGoalShow = SavingsGoal & {
+export type SavingsGoalDetail = SavingsGoal & {
   group: Group
   contributions_count: number
   expenses_count: number

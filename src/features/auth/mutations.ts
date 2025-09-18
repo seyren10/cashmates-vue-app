@@ -7,7 +7,9 @@ export const useAuthMutations = () => {
   const loginMutation = useMutation({
     mutationFn: (payload: LoginCredentials) => login(payload),
     onSuccess: () => {
-      toast.info('Successfully logged in')
+      toast.info('Successfully logged in', {
+        position: 'top-center',
+      })
     },
   })
 

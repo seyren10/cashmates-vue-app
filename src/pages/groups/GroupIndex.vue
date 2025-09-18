@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { getGroupsQueryOptions } from '@/features/groups/query-options';
 import { useQuery } from '@tanstack/vue-query'
-import { computed } from 'vue';
+import GroupCard from './components/GroupCard.vue';
 
 const { data: groups, suspense } = useQuery(getGroupsQueryOptions)
 await suspense()
 
-const tae = computed(() => groups.value?.concat)
 </script>
 <template>
-    <div>
-        <pre>
-            {{ groups }}
-        </pre>
+    <div class="p-4">
+        <GroupCard :groups="groups!" />
     </div>
 </template>
 

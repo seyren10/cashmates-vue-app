@@ -6,22 +6,30 @@ import { useAuthMutations } from '@/features/auth/mutations';
 import LoginErrorAlert from './components/LoginErrorAlert.vue';
 import { computed } from 'vue';
 import type { CashmateError } from '@/types/http';
-import AppButtonLoaderSwap from '@/components/app/AppButtonLoaderSwap.vue';
-import { Home } from 'lucide-vue-next';
 import { useNavigation } from '@/composables/use-navigation';
-
+import type { LoginCredential } from '@/features/auth/type';
+import { useRouter } from 'vue-router';
 
 const { loginMutation: { mutate, error, isError, isPending } } = useAuthMutations()
-
+const router = useRouter()
 const errorMessage = computed(() => {
     const err = error.value as CashmateError
     return err.response?.data.message
 })
 const { isPending: isNavigating } = useNavigation();
+
+const handleLogin = (data: LoginCredential) => {
+    mutate(data, {
+        onSuccess: () => {
+            router.replace({ name: 'home' })
+        }
+    })
+}
+
 </script>
 <template>
     <div class="h-screen grid place-content-center">
-        <Card class="mx-4">
+        <Card class="w-full max-w-sm">
             <CardHeader>
                 <CardTitle>Welcome Back</CardTitle>
                 <CardDescription>Login to your account to continue</CardDescription>
@@ -29,7 +37,7 @@ const { isPending: isNavigating } = useNavigation();
 
             <CardContent class="space-y-4">
                 <LoginErrorAlert :error-message="errorMessage" v-if="isError" />
-                <LoginForm @submit="mutate" :loading="isPending" />
+                <LoginForm @submit="handleLogin" :loading="isPending || isNavigating" />
                 <div
                     class="relative text-center text-xs after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                     <span class="relative z-10 bg-background px-2 text-muted-foreground">
@@ -44,12 +52,7 @@ const { isPending: isNavigating } = useNavigation();
                     <a target="_blank" href="https://icons8.com/icon/V5cGWnc9R4xj/google">Google</a> icon by <a
                         target="_blank" href="https://icons8.com">Icons8</a>
                 </div>
-                <RouterLink :to="{ name: 'groups' }">
-                    <AppButtonLoaderSwap :loading="isNavigating">
-                        <Home />
-                    </AppButtonLoaderSwap>
-                    groups
-                </RouterLink>
+
             </CardFooter>
         </Card>
     </div>
