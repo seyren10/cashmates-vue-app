@@ -16,7 +16,7 @@ const inDevelopment = import.meta.env.DEV
         <div class="flex gap-4 items-center justify-center">
             <h1 class="text-xl font-bold">404</h1>
             <Separator orientation="vertical" />
-            <RouterLink to="/">
+            <RouterLink :to="{ name: 'groups.index' }">
                 <Button size="sm">
                     <Home />
                     <span>Home</span>

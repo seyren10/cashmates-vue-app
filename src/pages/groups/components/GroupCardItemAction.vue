@@ -40,7 +40,7 @@ const handleEdit = (type: GroupCardActionType) => {
 
         <DropdownMenuContent align="end" @close-auto-focus="(e) => e.preventDefault()">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem @select="() => handleEdit('edit')">
+            <DropdownMenuItem @select="() => handleEdit('edit')" v-if="group.pivot.role === 'owner'">
                 <EditIcon /> Edit
             </DropdownMenuItem>
             <DropdownMenuItem @select="handleCopyInvitationCode">

@@ -48,8 +48,9 @@ function useEditInput(name: MaybeRef<string>) {
         <CardHeader class="flex justify-between gap-4 items-start">
             <div class="space-y-1.5">
                 <CardTitle class="capitalize">
-                    <AppTextToInput v-model:text="editInput" v-model:is-editing="isEditing"
-                        @submit="handleUpdateGroup" />
+                    <AppTextToInput v-model:text="editInput" v-model:is-editing="isEditing" @submit="handleUpdateGroup">
+                        {{ group.name }}
+                    </AppTextToInput>
                 </CardTitle>
                 <CardDescription>
                     <Badge class="capitalize">

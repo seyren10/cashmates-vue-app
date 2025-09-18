@@ -8,7 +8,7 @@ await suspense()
 
 </script>
 <template>
-    <div class="p-4">
+    <div>
         <GroupCard :groups="groups!" />
     </div>
 </template>

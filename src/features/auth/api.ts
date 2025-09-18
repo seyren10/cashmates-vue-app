@@ -1,9 +1,14 @@
 import { httpClient } from '@/services/axios/axios'
-import type { LoginCredentials, RegistrationPayload } from './type'
+import type { LoginCredentials, RegistrationPayload, User } from './type'
 
 export const login = async (payload: LoginCredentials) => {
   await getCsrfCookie()
   await httpClient.post('/login', payload)
+}
+
+export const getUser = async () => {
+  const res = await httpClient.get<User>('/api/user')
+  return res.data
 }
 
 export const logout = async () => {

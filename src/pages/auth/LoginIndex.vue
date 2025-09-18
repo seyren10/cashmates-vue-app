@@ -4,27 +4,43 @@ import LoginForm from './components/LoginForm.vue';
 import LoginGoogle from './components/LoginGoogle.vue';
 import { useAuthMutations } from '@/features/auth/mutations';
 import LoginErrorAlert from './components/LoginErrorAlert.vue';
-import { computed } from 'vue';
+import { computed, watchEffect } from 'vue';
 import type { CashmateError } from '@/types/http';
-import { useNavigation } from '@/composables/use-navigation';
+import { useNavigationState } from '@/composables/use-navigation';
 import type { LoginCredential } from '@/features/auth/type';
 import { useRouter } from 'vue-router';
+import { useQuery } from '@tanstack/vue-query';
+import { getUserQueryOptions } from '@/features/groups/query-options';
+import { useUserStore } from '@/stores/user';
 
-const { loginMutation: { mutate, error, isError, isPending } } = useAuthMutations()
+const { loginMutation: { mutate, error, isError, isPending, isSuccess: isLoginSuccessful } } = useAuthMutations()
 const router = useRouter()
 const errorMessage = computed(() => {
     const err = error.value as CashmateError
     return err.response?.data.message
 })
-const { isPending: isNavigating } = useNavigation();
+const { state } = useNavigationState();
 
 const handleLogin = (data: LoginCredential) => {
     mutate(data, {
         onSuccess: () => {
-            router.replace({ name: 'home' })
+            return router.replace({ name: 'home' })
         }
     })
 }
+
+/* start fetching the user when login is successful */
+const { data, isSuccess } = useQuery(getUserQueryOptions(isLoginSuccessful))
+const userStore = useUserStore()
+
+/* update the user store based on the result of getting the user */
+watchEffect(() => {
+    if (isSuccess.value) {
+        console.log(data.value)
+        userStore.setUser(data.value!)
+    } else
+        userStore.setUser(null)
+})
 
 </script>
 <template>
@@ -37,7 +53,7 @@ const handleLogin = (data: LoginCredential) => {
 
             <CardContent class="space-y-4">
                 <LoginErrorAlert :error-message="errorMessage" v-if="isError" />
-                <LoginForm @submit="handleLogin" :loading="isPending || isNavigating" />
+                <LoginForm @submit="handleLogin" :loading="isPending || state === 'loading'" />
                 <div
                     class="relative text-center text-xs after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                     <span class="relative z-10 bg-background px-2 text-muted-foreground">

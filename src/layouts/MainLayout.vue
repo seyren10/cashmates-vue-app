@@ -4,8 +4,9 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-    <div>
-        <RouterView />
+    <div class="p-4">
+        <RouterView>
+        </RouterView>
     </div>
 </template>
 

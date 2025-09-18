@@ -10,7 +10,7 @@ export const useGroupMutations = () => {
       updateGroup(groupId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['groups', 'list'],
+        queryKey: ['groups'],
       })
     },
   })

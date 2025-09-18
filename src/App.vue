@@ -5,7 +5,6 @@ import { useColorMode } from '@vueuse/core';
 import { LoaderCircle } from 'lucide-vue-next';
 import { RouterView } from 'vue-router';
 import { Toaster } from '@/components/ui/sonner';
-
 import 'vue-sonner/style.css'
 
 

@@ -2,6 +2,17 @@ import type { RouteRecordRaw } from 'vue-router'
 
 export const groupRoutes: RouteRecordRaw = {
   path: 'groups',
-  name: 'groups',
-  component: () => import('@/pages/groups/GroupIndex.vue'),
+  children: [
+    {
+      path: '',
+      name: 'groups.index',
+      component: () => import('@/pages/groups/GroupIndex.vue'),
+    },
+    {
+      path: ':groupId',
+      name: 'groups.detail',
+      component: () => import('@/pages/groups/detail/GroupDetailIndex.vue'),
+      props: true,
+    },
+  ],
 }
