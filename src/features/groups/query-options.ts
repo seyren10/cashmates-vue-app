@@ -18,9 +18,8 @@ export const getGroupQueryOptions = (groupId: MaybeRefOrGetter<GroupId>) =>
     suspense: true,
   })
 
-export const getUserQueryOptions = (enabled: MaybeRefOrGetter<boolean>) =>
-  queryOptions({
-    queryKey: ['user'],
-    queryFn: () => getUser(),
-    enabled,
-  })
+export const getUserQueryOptions = queryOptions({
+  queryKey: ['user'],
+  queryFn: () => getUser(),
+  retry: false,
+})

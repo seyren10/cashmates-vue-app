@@ -8,13 +8,15 @@ import { computed, watchEffect } from 'vue';
 import type { CashmateError } from '@/types/http';
 import { useNavigationState } from '@/composables/use-navigation';
 import type { LoginCredential } from '@/features/auth/type';
-import { useRouter } from 'vue-router';
-import { useQuery } from '@tanstack/vue-query';
-import { getUserQueryOptions } from '@/features/groups/query-options';
-import { useUserStore } from '@/stores/user';
+import { useRoute, useRouter } from 'vue-router';
+import { useRouteQuery } from '@vueuse/router'
+import { toast } from 'vue-sonner';
 
-const { loginMutation: { mutate, error, isError, isPending, isSuccess: isLoginSuccessful } } = useAuthMutations()
+const { loginMutation: { mutate, error, isError, isPending } } = useAuthMutations()
 const router = useRouter()
+const route = useRoute()
+const sessionExpired = useRouteQuery('session_expired', 'false', { transform: Boolean })
+
 const errorMessage = computed(() => {
     const err = error.value as CashmateError
     return err.response?.data.message
@@ -24,22 +26,21 @@ const { state } = useNavigationState();
 const handleLogin = (data: LoginCredential) => {
     mutate(data, {
         onSuccess: () => {
-            return router.replace({ name: 'home' })
+
+            if (route.query.ref) {
+                return router.replace({ path: route.query.ref as string })
+            } else
+                return router.replace({ name: 'group.index' })
         }
     })
 }
 
-/* start fetching the user when login is successful */
-const { data, isSuccess } = useQuery(getUserQueryOptions(isLoginSuccessful))
-const userStore = useUserStore()
-
-/* update the user store based on the result of getting the user */
 watchEffect(() => {
-    if (isSuccess.value) {
-        console.log(data.value)
-        userStore.setUser(data.value!)
-    } else
-        userStore.setUser(null)
+    if (sessionExpired.value) {
+        toast.error('Your session has expired. Please login again to continue.', {
+            position: 'top-center',
+        })
+    }
 })
 
 </script>
