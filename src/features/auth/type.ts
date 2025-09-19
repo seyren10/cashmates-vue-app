@@ -1,5 +1,6 @@
 import type z from 'zod'
 import type { loginCredentialSchema, userRole } from './schema'
+import type { GroupPivot } from '../groups/type'
 
 export type LoginCredentials = {
   email: string
@@ -20,6 +21,10 @@ export type User = {
   email_verified_at: string
   google_id: null | string
   avatar: null | string
+}
+
+export type UserWithPivot = User & {
+  pivot: GroupPivot
 }
 
 export type UserRole = (typeof userRole)[number]

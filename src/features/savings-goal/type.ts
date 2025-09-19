@@ -9,10 +9,10 @@ export type SavingsGoal = WithTimestamp & {
   deadline: null | string
   deleted_at: string
   current_balance: number
+  contributions_count: number
+  expenses_count: number
 }
 
 export type SavingsGoalDetail = SavingsGoal & {
   group: Group
-  contributions_count: number
-  expenses_count: number
 }

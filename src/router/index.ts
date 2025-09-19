@@ -2,7 +2,7 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { authRoutes } from '../pages/auth/routes'
 import { groupRoutes } from '@/pages/groups/routes'
-import { ensureAuthenticated } from '@/services/vue-router/authenticated'
+import { ensureAuthenticated } from '@/router/authenticated'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

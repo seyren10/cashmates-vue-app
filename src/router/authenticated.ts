@@ -1,6 +1,6 @@
 import type { NavigationGuardNext, RouteLocation } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { queryClient } from '../tanstack-query/query-client'
+import { queryClient } from '../services/tanstack-query/query-client'
 import { getUserQueryOptions } from '@/features/groups/query-options'
 
 export const ensureAuthenticated = async (

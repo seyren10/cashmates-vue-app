@@ -1,4 +1,4 @@
-import { guestRouteGuard } from '@/services/vue-router/guest'
+import { guestRouteGuard } from '@/router/guest'
 import type { RouteRecordRaw } from 'vue-router'
 
 export const authRoutes: RouteRecordRaw[] = [
