@@ -4,6 +4,7 @@ import type { SavingsGoalId } from '@/features/savings-goal/type';
 import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
 import SavingsGoalDetailCard from './components/SavingsGoalDetailCard.vue';
+import SavingsGoalTabs from './components/SavingsGoalTabs.vue';
 
 const { savingsGoalId } = defineProps<{
     savingsGoalId: string
@@ -14,8 +15,9 @@ await suspense()
 const savingsGoal = computed(() => data.value!)
 </script>
 <template>
-    <div>
+    <div class="space-y-4">
         <SavingsGoalDetailCard :savings-goal-detail="savingsGoal" />
+        <SavingsGoalTabs />
     </div>
 </template>
 

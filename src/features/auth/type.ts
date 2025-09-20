@@ -23,6 +23,7 @@ export type User = {
   avatar: null | string
 }
 
+export type UserId = User['id']
 export type UserWithPivot = User & {
   pivot: GroupPivot
 }

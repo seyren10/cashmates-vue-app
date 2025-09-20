@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { savingsGoalRoutes } from './savings-goal/router'
 
 export const groupRoutes: RouteRecordRaw = {
   path: 'groups',
@@ -16,6 +17,7 @@ export const groupRoutes: RouteRecordRaw = {
         header: () => import('@/pages/groups/details/GroupDetailHeader.vue'),
       },
       props: true,
+      children: [savingsGoalRoutes],
     },
   ],
 }

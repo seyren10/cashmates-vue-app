@@ -5,7 +5,6 @@ import { useNavigationState } from '@/composables/use-navigation';
 import AppButtonLoaderSwap from './AppButtonLoaderSwap.vue';
 
 const { state } = useNavigationState()
-
 </script>
 <template>
     <div class="border-b">

@@ -14,7 +14,7 @@ const mode = useColorMode()
   <RouterView v-slot="{ Component }">
     <template v-if="Component">
       <AppErrorBoundary>
-        <Suspense timeout="0">
+        <Suspense timeout="1000">
           <component :is="Component"></component>
           <template #fallback>
             <div class="h-screen grid place-content-center">

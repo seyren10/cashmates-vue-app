@@ -10,7 +10,7 @@ import { RouterView } from 'vue-router';
         <main class="p-4">
             <RouterView v-slot="{ Component }">
                 <template v-if="Component">
-                    <Suspense timeout="0">
+                    <Suspense timeout="1000">
                         <component :is="Component"></component>
                         <template #fallback>
                             <div class="h-screen grid place-content-center">
