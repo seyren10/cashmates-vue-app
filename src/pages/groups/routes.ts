@@ -11,7 +11,10 @@ export const groupRoutes: RouteRecordRaw = {
     {
       path: ':groupId',
       name: 'groups.detail',
-      component: () => import('@/pages/groups/detail/GroupDetailIndex.vue'),
+      components: {
+        default: () => import('@/pages/groups/details/GroupDetailIndex.vue'),
+        header: () => import('@/pages/groups/details/GroupDetailHeader.vue'),
+      },
       props: true,
     },
   ],

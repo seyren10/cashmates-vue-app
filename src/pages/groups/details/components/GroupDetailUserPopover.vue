@@ -10,14 +10,11 @@ const { users } = defineProps<{
     users: UserWithPivot[]
 }>()
 
-const userCount = computed(() => users.length)
 </script>
 <template>
     <Popover>
         <PopoverTrigger as-child>
-            <Button variant="ghost" size="sm">
-                <Users2 /> {{ userCount }}
-            </Button>
+            <slot />
         </PopoverTrigger>
 
         <PopoverContent align="end" class="space-y-4">

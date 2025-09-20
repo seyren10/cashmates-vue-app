@@ -13,6 +13,10 @@ export type SavingsGoal = WithTimestamp & {
   expenses_count: number
 }
 
+export type SavingsGoalId = SavingsGoal['id']
+
 export type SavingsGoalDetail = SavingsGoal & {
   group: Group
+  contributions_sum_amount: number | null
+  expenses_sum_amount: number | null
 }

@@ -14,7 +14,7 @@ const { toRoute } = useNavigationState()
 </script>
 
 <template>
-    <ul class="space-y-2">
+    <ul class="space-y-4">
         <li v-for="group in groups" :key="group.id">
             <RouterLink :to="{ name: 'groups.detail', params: { groupId: group.id } }">
                 <GroupCardItem :group="group" v-if="toRoute?.params.groupId !== String(group.id)" />

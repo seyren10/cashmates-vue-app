@@ -7,7 +7,7 @@ const { savingsGoals } = defineProps<{
 }>()
 </script>
 <template>
-    <ul class="space-y-2">
+    <ul class="space-y-4">
         <li v-for="savingsGoal in savingsGoals" :key="savingsGoal.id"
             class="border bg-card text-card-foreground rounded-xl p-4">
             <slot v-bind="savingsGoal" />

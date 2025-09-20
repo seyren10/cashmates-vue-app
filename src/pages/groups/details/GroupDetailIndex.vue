@@ -3,9 +3,9 @@ import { Separator } from '@/components/ui/separator';
 import { getGroupQueryOptions } from '@/features/groups/query-options';
 import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
-import GroupDetailHeader from './components/GroupDetailHeader.vue';
-import GroupDetailSavingsGoalCard from './components/GroupDetailSavingsGoalCard.vue';
-import GroupDetailSavingsGoalCardItem from './components/GroupDetailSavingsGoalCardItem.vue';
+import GroupDetailSavingsGoalCard from '../components/savings-goals/GroupDetailSavingsGoalCard.vue';
+import GroupDetailSavingsGoalCardItem from '../components/savings-goals/GroupDetailSavingsGoalCardItem.vue';
+import { RouterLink } from 'vue-router';
 
 
 const props = defineProps<{
@@ -20,11 +20,11 @@ const group = computed(() => data.value!)
 </script>
 <template>
     <div class="space-y-4">
-        <GroupDetailHeader :group="group" />
-        <Separator />
         <GroupDetailSavingsGoalCard :savings-goals="group.savings_goals">
             <template #default="savingsGoal">
-                <GroupDetailSavingsGoalCardItem :savings-goal="savingsGoal" />
+                <RouterLink :to="{ name: 'savings-goal.detail', params: { savingsGoalId: savingsGoal.id } }">
+                    <GroupDetailSavingsGoalCardItem :savings-goal="savingsGoal" />
+                </RouterLink>
             </template>
         </GroupDetailSavingsGoalCard>
     </div>
