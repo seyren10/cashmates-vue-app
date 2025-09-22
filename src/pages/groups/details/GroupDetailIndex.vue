@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { Separator } from '@/components/ui/separator';
 import { getGroupQueryOptions } from '@/features/groups/query-options';
 import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
 import GroupDetailSavingsGoalCard from '../components/savings-goals/GroupDetailSavingsGoalCard.vue';
 import GroupDetailSavingsGoalCardItem from '../components/savings-goals/GroupDetailSavingsGoalCardItem.vue';
-import { RouterLink } from 'vue-router';
 
 
 const props = defineProps<{
@@ -15,8 +13,6 @@ const props = defineProps<{
 const { data, suspense } = useQuery(getGroupQueryOptions(() => +props.groupId))
 await suspense()
 const group = computed(() => data.value!)
-
-
 </script>
 <template>
     <div class="space-y-4">
@@ -27,6 +23,7 @@ const group = computed(() => data.value!)
                 </RouterLink>
             </template>
         </GroupDetailSavingsGoalCard>
+
     </div>
 </template>
 

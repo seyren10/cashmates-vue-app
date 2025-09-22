@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import Badge from '@/components/ui/badge/Badge.vue';
-import { Button } from '@/components/ui/button';
-import type { GroupDetail, GroupId } from '@/features/groups/type';
+import type { GroupId } from '@/features/groups/type';
 import { useUserStore } from '@/stores/user';
-import { ChevronLeft, User2 } from 'lucide-vue-next';
+import { User2 } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import GroupDetailUserPopover from './components/GroupDetailUserPopover.vue';
-import { useNavigationState } from '@/composables/use-navigation';
-import AppButtonLoaderSwap from '@/components/app/AppButtonLoaderSwap.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getGroupQueryOptions } from '@/features/groups/query-options';
 import AppHeader from '@/components/app/AppHeader.vue';

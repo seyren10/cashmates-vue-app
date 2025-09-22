@@ -13,7 +13,7 @@ const router = createRouter({
       name: 'home',
       component: MainLayout,
       redirect: { name: 'groups.index' },
-      children: [groupRoutes],
+      children: [groupRoutes, savingsGoalRoutes],
       beforeEnter: ensureAuthenticated,
     },
     ...authRoutes,
@@ -23,10 +23,6 @@ const router = createRouter({
       component: () => import('@/components/router/AppErrorPage.vue'),
     },
   ],
-})
-
-router.beforeEach((to) => {
-  console.log(to.name, to.params)
 })
 
 export default router

@@ -2,10 +2,14 @@
 import AppButtonLoaderSwap from '@/components/app/AppButtonLoaderSwap.vue';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNavigationState } from '@/composables/use-navigation';
+import type { SavingsGoalId } from '@/features/savings-goal/type';
 import { HandCoins, LoaderCircle, MousePointer2, Receipt } from 'lucide-vue-next';
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouterView, useRoute } from 'vue-router';
 
+const { savingsGoalId } = defineProps<{
+    savingsGoalId: SavingsGoalId
+}>()
 const route = useRoute()
 const { toRoute } = useNavigationState()
 
@@ -21,10 +25,10 @@ const activeTab = computed(() => {
 })
 </script>
 <template>
-    <Tabs model-value="expenses">
+    <Tabs :model-value="activeTab">
         <TabsList class="w-full space-x-1">
             <TabsTrigger value="contributions" as-child>
-                <RouterLink :to="{ name: contributionRouteName }">
+                <RouterLink :to="{ name: contributionRouteName, params: { savingsGoalId } }">
                     <AppButtonLoaderSwap :loading="toRoute?.name === contributionRouteName">
                         <HandCoins />
                     </AppButtonLoaderSwap>
@@ -32,7 +36,7 @@ const activeTab = computed(() => {
                 </RouterLink>
             </TabsTrigger>
             <TabsTrigger value="expenses" as-child>
-                <RouterLink :to="{ name: expenseRouteName }">
+                <RouterLink :to="{ name: expenseRouteName, params: { savingsGoalId } }">
                     <AppButtonLoaderSwap :loading="toRoute?.name === expenseRouteName">
                         <Receipt />
                     </AppButtonLoaderSwap>
