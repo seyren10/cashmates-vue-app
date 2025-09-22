@@ -1,4 +1,4 @@
-import type { WithTimestamp } from '@/types/common'
+import type { Media, WithTimestamp } from '@/types/common'
 import type { User, UserId } from '../auth/type'
 
 export type Contribution = WithTimestamp & {
@@ -9,6 +9,11 @@ export type Contribution = WithTimestamp & {
   note: string | null
   comments_count: number
   user: User
+  media: Media[]
 }
 
 export type ContributionId = Contribution['id']
+
+export type ContributionDetail = Contribution & {
+  media: Media[]
+}

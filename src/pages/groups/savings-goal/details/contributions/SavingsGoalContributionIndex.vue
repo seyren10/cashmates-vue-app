@@ -3,6 +3,7 @@ import { getContributionsQueryOptions } from '@/features/contributions/query-opt
 import type { SavingsGoalId } from '@/features/savings-goal/type';
 import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
+import ContributionCard from './components/ContributionCard.vue';
 
 
 const { savingsGoalId } = defineProps<{
@@ -14,7 +15,7 @@ const contributions = computed(() => data.value!)
 </script>
 <template>
     <div>
-        {{ contributions }}
+        <ContributionCard :contributions="contributions" />
     </div>
 </template>
 
