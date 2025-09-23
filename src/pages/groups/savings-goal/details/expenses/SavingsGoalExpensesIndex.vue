@@ -1,11 +1,26 @@
+<script setup lang="ts">
+import { getExpensesQueryOptions } from '@/features/expenses/query-options';
+import { useQuery } from '@tanstack/vue-query';
+import { computed } from 'vue';
+import ExpenseCard from './components/ExpenseCard.vue';
+
+import type { SavingsGoalId } from '@/features/savings-goal/type';
+
+
+
+const { savingsGoalId } = defineProps<{
+    savingsGoalId: string
+}>()
+const { data, suspense } = useQuery(getExpensesQueryOptions(+savingsGoalId as SavingsGoalId))
+await suspense()
+const expenses = computed(() => data.value!)
+</script>
 <template>
     <div>
-        Expenses
+        <ExpenseCard :expenses="expenses" />
     </div>
 </template>
 
-<script setup lang="ts">
 
-</script>
 
 <style scoped></style>

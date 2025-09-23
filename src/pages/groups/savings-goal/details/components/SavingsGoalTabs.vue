@@ -28,7 +28,7 @@ const activeTab = computed(() => {
     <Tabs :model-value="activeTab">
         <TabsList class="w-full space-x-1">
             <TabsTrigger value="contributions" as-child>
-                <RouterLink :to="{ name: contributionRouteName, params: { savingsGoalId } }">
+                <RouterLink :to="{ name: contributionRouteName, params: { savingsGoalId }, replace: true }">
                     <AppButtonLoaderSwap :loading="toRoute?.name === contributionRouteName">
                         <HandCoins />
                     </AppButtonLoaderSwap>
@@ -36,7 +36,7 @@ const activeTab = computed(() => {
                 </RouterLink>
             </TabsTrigger>
             <TabsTrigger value="expenses" as-child>
-                <RouterLink :to="{ name: expenseRouteName, params: { savingsGoalId } }">
+                <RouterLink :to="{ name: expenseRouteName, params: { savingsGoalId }, replace: true }">
                     <AppButtonLoaderSwap :loading="toRoute?.name === expenseRouteName">
                         <Receipt />
                     </AppButtonLoaderSwap>

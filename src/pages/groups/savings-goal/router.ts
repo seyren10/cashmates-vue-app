@@ -24,6 +24,9 @@ export const savingsGoalRoutes: RouteRecordRaw = {
           path: 'expenses',
           name: 'savings-goal.expenses.index',
           component: () => import('./details/expenses/SavingsGoalExpensesIndex.vue'),
+          props: (route) => ({
+            savingsGoalId: +route.params.savingsGoalId,
+          }),
         },
       ],
     },

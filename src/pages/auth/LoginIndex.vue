@@ -9,13 +9,12 @@ import type { CashmateError } from '@/types/http';
 import { useNavigationState } from '@/composables/use-navigation';
 import type { LoginCredential } from '@/features/auth/type';
 import { useRoute, useRouter } from 'vue-router';
-import { useRouteQuery } from '@vueuse/router'
 import { toast } from 'vue-sonner';
 
 const { loginMutation: { mutate, error, isError, isPending } } = useAuthMutations()
 const router = useRouter()
 const route = useRoute()
-const sessionExpired = useRouteQuery('session_expired', 'false', { transform: Boolean })
+
 
 const errorMessage = computed(() => {
     const err = error.value as CashmateError
@@ -36,7 +35,7 @@ const handleLogin = (data: LoginCredential) => {
 }
 
 watchEffect(() => {
-    if (sessionExpired.value) {
+    if (route.query.session_expired && route.query.session_expired === 'true') {
         toast.error('Your session has expired. Please login again to continue.', {
             position: 'top-center',
         })
