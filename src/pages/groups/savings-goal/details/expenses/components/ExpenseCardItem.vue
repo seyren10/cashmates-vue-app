@@ -7,7 +7,7 @@ import { Collapsible, CollapsibleTrigger } from '@/components/ui/collapsible';
 import CollapsibleContent from '@/components/ui/collapsible/CollapsibleContent.vue';
 import { Separator } from '@/components/ui/separator';
 import { formatToPhp } from '@/lib/number-format';
-import { LoaderCircle, MessageCircle } from 'lucide-vue-next';
+import { LoaderCircle, MessageCircle, MinusIcon } from 'lucide-vue-next';
 import { computed, defineAsyncComponent } from 'vue';
 import AppImage from '@/components/app/AppImage.vue';
 import { formatDistanceToNow } from 'date-fns';
@@ -29,7 +29,9 @@ const user = computed(() => expense.user)
                         addSuffix: true
                     }) }}</p>
                 </div>
-                <Badge>+ {{ formatToPhp(expense.amount) }}</Badge>
+                <Badge variant="destructive">
+                    <MinusIcon /> {{ formatToPhp(expense.amount) }}
+                </Badge>
             </div>
             <p>{{ expense.description || '-' }}</p>
             <div class="aspect-square max-w-56 mx-auto" v-if="expense.media && expense.media.length">
