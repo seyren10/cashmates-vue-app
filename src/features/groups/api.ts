@@ -1,5 +1,5 @@
 import { httpClient } from '@/services/axios/axios'
-import type { GroupDetail, Group, GroupId, UpdateGroupPayload } from './type'
+import type { GroupDetail, Group, GroupId, UpdateGroupPayload, CreateGroupPayload } from './type'
 
 export const getGroups = async () => {
   const res = await httpClient.get<Group[]>('/api/groups')
@@ -11,7 +11,15 @@ export const getGroup = async (groupId: GroupId) => {
   return res.data
 }
 
+export const createGroup = async (payload: CreateGroupPayload) => {
+  const res = await httpClient.post<Group>('/api/groups', payload)
+  return res.data
+}
+
 export const updateGroup = async (groupId: GroupId, payload: UpdateGroupPayload) => {
   const res = await httpClient.put<Group>(`/api/groups/${groupId}`, payload)
   return res.data
+}
+export const deleteGroup = async (groupId: GroupId) => {
+  await httpClient.delete(`/api/groups/${groupId}`)
 }
