@@ -2,8 +2,6 @@
 import { LoaderCircle } from 'lucide-vue-next';
 import { Suspense } from 'vue';
 import { RouterView } from 'vue-router';
-import AppErrorBoundary from '../router/AppErrorBoundary.vue';
-
 
 </script>
 

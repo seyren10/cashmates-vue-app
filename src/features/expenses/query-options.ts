@@ -6,5 +6,4 @@ export const getExpensesQueryOptions = (savingsGoalId: SavingsGoalId) =>
   queryOptions({
     queryKey: ['savings-goals', 'detail', savingsGoalId, 'expenses', 'list'],
     queryFn: () => getExpenses(savingsGoalId),
-    suspense: true,
   })

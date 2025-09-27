@@ -5,11 +5,12 @@ import { computed } from 'vue';
 import ExpenseCard from './components/ExpenseCard.vue';
 
 import type { SavingsGoalId } from '@/features/savings-goal/type';
+import type { GroupId } from '@/features/groups/type';
 
 
 
 const { savingsGoalId } = defineProps<{
-    savingsGoalId: string
+    savingsGoalId: GroupId
 }>()
 const { data, suspense } = useQuery(getExpensesQueryOptions(+savingsGoalId as SavingsGoalId))
 await suspense()

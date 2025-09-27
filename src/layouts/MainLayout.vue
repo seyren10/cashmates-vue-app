@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppLazyRouterView from '@/components/app/AppLazyRouterView.vue';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { RouterView } from 'vue-router';
 
@@ -12,7 +11,7 @@ import { RouterView } from 'vue-router';
         <RouterView name="header"></RouterView>
         <main class="p-4">
             <TooltipProvider>
-                <AppLazyRouterView />
+                <RouterView />
             </TooltipProvider>
         </main>
     </div>

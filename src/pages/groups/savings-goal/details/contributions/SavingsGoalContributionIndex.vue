@@ -4,10 +4,11 @@ import type { SavingsGoalId } from '@/features/savings-goal/type';
 import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
 import ContributionCard from './components/ContributionCard.vue';
+import type { GroupId } from '@/features/groups/type';
 
 
 const { savingsGoalId } = defineProps<{
-    savingsGoalId: string
+    savingsGoalId: GroupId
 }>()
 const { data, suspense } = useQuery(getContributionsQueryOptions(+savingsGoalId as SavingsGoalId))
 await suspense()

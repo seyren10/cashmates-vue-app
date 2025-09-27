@@ -2,22 +2,32 @@
 import { useErrorStore } from '@/stores/error';
 import { storeToRefs } from 'pinia';
 import { onErrorCaptured } from 'vue';
-import AppErrorPage from './AppErrorPage.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const errorStore = useErrorStore()
-const { error } = storeToRefs(errorStore)
+const { error, hasError } = storeToRefs(errorStore)
 
-onErrorCaptured((err, instance) => {
-    console.log(instance?.$route)
-    error.value = err
-    return false
+onErrorCaptured((err, instance, info) => {
+    error.value = err;
+    console.error("Captured error:", err, info, instance);
+    // return false to stop propagation to global handler
+    return false;
+});
+
+router.onError((err) => {
+    error.value = err;
 })
+
 </script>
+
 <template>
-    <slot v-if="!error" />
-    <AppErrorPage v-else />
+    <div>
+        <template v-if="hasError">
+            <slot name="fallback" />
+        </template>
+        <template v-else>
+            <slot />
+        </template>
+    </div>
 </template>
-
-
-
-<style scoped></style>

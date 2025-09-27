@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 export const useErrorStore = defineStore('errors', () => {
   const error = ref<Error | null>(null)
 
+  const hasError = computed(() => !!error.value)
   const errorMessage = computed(() => {
     if (error.value instanceof AxiosError) {
       const err = error.value as CashmateError
@@ -17,9 +18,15 @@ export const useErrorStore = defineStore('errors', () => {
     return error.value?.stack
   })
 
+  const resetError = () => {
+    error.value = null
+  }
+
   return {
     errorMessage,
     errorStack,
     error,
+    resetError,
+    hasError,
   }
 })

@@ -7,19 +7,16 @@ export const getContributionsQueryOptions = (savingsGoalId: SavingsGoalId) =>
   queryOptions({
     queryKey: ['savings-goals', 'detail', savingsGoalId, 'contributions', 'list'],
     queryFn: () => getContributions(savingsGoalId),
-    suspense: true,
   })
 
 export const getContributionQueryOptions = (contributionId: ContributionId) =>
   queryOptions({
     queryKey: ['contributions', 'detail', contributionId],
     queryFn: () => getContribution(contributionId),
-    suspense: true,
   })
 
 export const getContributionCommentsQueryOptions = (contributionId: ContributionId) =>
   queryOptions({
     queryKey: ['contributions', 'detail', contributionId, 'comments'],
     queryFn: () => getContributionComments(contributionId),
-    suspense: true,
   })

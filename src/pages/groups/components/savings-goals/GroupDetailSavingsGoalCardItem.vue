@@ -3,7 +3,7 @@ import type { SavingsGoal } from '@/features/savings-goal/type';
 import AppWithIcon from '@/components/app/AppWithIcon.vue';
 import { Progress } from '@/components/ui/progress';
 import { formatToPhp } from '@/lib/number-format';
-import { CalendarClock, Goal, TargetIcon } from 'lucide-vue-next';
+import { CalendarClock, Goal, HomeIcon, TargetIcon } from 'lucide-vue-next';
 import { computed } from 'vue';
 import { format } from 'date-fns'
 
@@ -17,13 +17,19 @@ const goalPercentage = computed(() => Math.round((savingsGoal.current_balance / 
 <template>
     <div class="space-y-2">
         <!-- Header -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 m-0">
             <p class="font-medium capitalize">{{ savingsGoal.name }}</p>
-            <span class="font-bold text-primary ml-auto flex items-center gap-2">
-                <Goal class="text-muted-foreground size-4" />
-                {{ formatToPhp(savingsGoal.target_amount) }}
-            </span>
+
+            <div class="ml-auto flex items-center gap-2">
+                <slot name="actions" />
+            </div>
         </div>
+
+        <!-- Target Amount -->
+        <p class="font-bold text-primary flex items-center gap-2">
+            <Goal class="text-muted-foreground size-4" />
+            {{ formatToPhp(savingsGoal.target_amount) }}
+        </p>
 
         <!-- Due Date -->
         <AppWithIcon :icon="CalendarClock" v-if="savingsGoal.deadline">{{ format(savingsGoal.deadline, 'MMM dd, yyyy')

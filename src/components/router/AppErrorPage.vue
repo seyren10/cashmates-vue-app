@@ -5,7 +5,6 @@ import { Separator } from '../ui/separator';
 import { RouterLink } from 'vue-router';
 import { useErrorStore } from '@/stores/error';
 import { storeToRefs } from 'pinia';
-
 const errorStore = useErrorStore()
 const { error, errorMessage, errorStack } = storeToRefs(errorStore)
 
@@ -16,18 +15,20 @@ const inDevelopment = import.meta.env.DEV
         <div class="flex gap-4 items-center justify-center">
             <h1 class="text-xl font-bold">404</h1>
             <Separator orientation="vertical" />
-            <RouterLink :to="{ name: 'home' }" replace>
-                <Button size="sm">
-                    <Home />
-                    <span>Home</span>
-                </Button>
-            </RouterLink>
+            <slot>
+                <RouterLink :to="{ path: '/', replace: true }" @click="errorStore.resetError()">
+                    <Button size="sm">
+                        <Home />
+                        <span>Home</span>
+                    </Button>
+                </RouterLink>
+            </slot>
         </div>
         <div class="max-w-lg" v-if="error">
             <p class="text-destructive text-sm text-center">{{ errorMessage }}</p>
             <pre v-if="inDevelopment">
-                {{ errorStack }}
-            </pre>
+        {{ errorStack }}
+    </pre>
         </div>
     </div>
 </template>

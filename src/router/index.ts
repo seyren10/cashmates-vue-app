@@ -13,7 +13,7 @@ const router = createRouter({
       name: 'home',
       component: MainLayout,
       redirect: { name: 'groups.index' },
-      children: [groupRoutes, savingsGoalRoutes],
+      children: [groupRoutes],
       beforeEnter: ensureAuthenticated,
     },
     ...authRoutes,
