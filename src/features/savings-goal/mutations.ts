@@ -8,6 +8,12 @@ import { getGroupQueryOptions } from '../groups/query-options'
 
 export const useSavingsGoalMutations = () => {
   const queryClient = useQueryClient()
+
+  const invalidate = async () => {
+    queryClient.invalidateQueries({
+      queryKey: ['savings-goals', 'detail'],
+    })
+  }
   const handleError = (err: unknown) => {
     const error = err as CashmateError
     toast.error(error.response?.data?.message || 'Something went wrong')

@@ -32,6 +32,7 @@ const user = computed(() => contribution.user)
                 <Badge>
                     <PlusIcon /> {{ formatToPhp(contribution.amount) }}
                 </Badge>
+                <slot name="actions" />
             </div>
             <p>{{ contribution.note || '-' }}</p>
             <div class="aspect-square max-w-56 mx-auto" v-if="contribution.media && contribution.media.length">

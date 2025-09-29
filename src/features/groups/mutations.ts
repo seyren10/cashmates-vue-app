@@ -7,6 +7,11 @@ import { toast } from 'vue-sonner'
 export const useGroupMutations = () => {
   const queryClient = useQueryClient()
 
+  const invalidate = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['groups'],
+    })
+  }
   const handleError = (err: unknown) => {
     const error = err as CashmateError
     toast.error(error.response?.data?.message || 'Something went wrong')
@@ -16,9 +21,7 @@ export const useGroupMutations = () => {
     mutationFn: ({ groupId, payload }: { groupId: GroupId; payload: UpdateGroupPayload }) =>
       updateGroup(groupId, payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['groups'],
-      })
+      invalidate()
     },
     onError: handleError,
   })
@@ -26,9 +29,7 @@ export const useGroupMutations = () => {
   const createMutation = useMutation({
     mutationFn: createGroup,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['groups'],
-      })
+      invalidate()
     },
     onError: handleError,
   })
@@ -36,9 +37,7 @@ export const useGroupMutations = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteGroup,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['groups'],
-      })
+      invalidate()
     },
     onError: handleError,
   })

@@ -5,4 +5,5 @@ export const getSavingsGoalQueryOptions = (savingsGoalId: number) =>
   queryOptions({
     queryKey: ['savings-goals', 'detail', savingsGoalId],
     queryFn: () => getSavingsGoal(savingsGoalId),
+    // staleTime: 0,
   })
