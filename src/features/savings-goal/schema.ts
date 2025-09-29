@@ -4,9 +4,9 @@ import z from 'zod'
 export const savingsGoalSchema = z.object({
   name: z.string().trim().nonempty().min(4),
   target_amount: z.number().min(1),
-  deadline: z.coerce
-    .date()
-    .optional()
+  deadline: z
+    .string()
+    .nullable()
     .refine(
       (date) => {
         if (!date) return true // allow optional

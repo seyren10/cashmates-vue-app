@@ -22,7 +22,7 @@ const goalPercentage = computed(() => Math.round((savingsGoalDetail.current_bala
     <div class="border bg-card text-card-foreground rounded-xl p-4 space-y-6">
         <!-- Goal Progress -->
         <div class="text-center">
-            <AppWithIcon :icon="TargetIcon">Goal Progress</AppWithIcon>
+            <AppWithIcon :icon="TargetIcon">{{ savingsGoalDetail.name }}</AppWithIcon>
             <p class="text-primary font-bold text-2xl">
                 {{ formatToPhp(savingsGoalDetail.current_balance) }}
             </p>

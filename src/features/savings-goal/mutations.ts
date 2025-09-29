@@ -33,7 +33,9 @@ export const useSavingsGoalMutations = () => {
       payload: UpdateSavingsGoalPayload
     }) => updateSavingsGoal(savingsGoalId, payload),
     onSuccess: (data) => {
-      queryClient.setQueryData(['savings-goals', data.id], () => data)
+      queryClient.invalidateQueries({
+        queryKey: getGroupQueryOptions(data.group_id).queryKey,
+      })
     },
     onError: handleError,
   })

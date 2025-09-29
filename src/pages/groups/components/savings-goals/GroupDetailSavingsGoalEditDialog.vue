@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useSavingsGoalMutations } from '@/features/savings-goal/mutations';
 import type { CreateSavingsGoalPayload, SavingsGoal, SavingsGoalSchema } from '@/features/savings-goal/type';
 import { format, parse, parseISO } from 'date-fns';
-import { defineAsyncComponent } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
 const GroupDetailSavingsGoalForm = defineAsyncComponent(() => import('./GroupDetailSavingsGoalForm.vue'))
 
 
@@ -25,6 +25,8 @@ const handleSubmit = (data: SavingsGoalSchema) => {
     })
 }
 
+const deadline = computed(() => savingsGoal.deadline && format(savingsGoal.deadline, 'yyyy-MM-dd'))
+
 </script>
 <template>
     <Dialog v-model:open="openDialog">
@@ -38,7 +40,7 @@ const handleSubmit = (data: SavingsGoalSchema) => {
 
             <Suspense>
                 <GroupDetailSavingsGoalForm @submit="handleSubmit" :loading="isPending"
-                    :initial-values="{ name: savingsGoal.name, target_amount: savingsGoal.target_amount, deadline: format(savingsGoal.deadline || '', 'yyyy-MM-dd') }" />
+                    :initial-values="{ name: savingsGoal.name, target_amount: savingsGoal.target_amount, deadline }" />
                 <template #fallback>
                     Loading...
                 </template>
