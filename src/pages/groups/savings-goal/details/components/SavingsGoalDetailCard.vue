@@ -29,7 +29,7 @@ const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoalDeta
             </p>
 
             <p class="text-xs text-muted-foreground">
-                Outstanding balance
+                Net amount
             </p>
         </div>
 
