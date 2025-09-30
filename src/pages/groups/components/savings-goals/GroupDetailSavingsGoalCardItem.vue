@@ -3,7 +3,7 @@ import type { SavingsGoal } from '@/features/savings-goal/type';
 import AppWithIcon from '@/components/app/AppWithIcon.vue';
 import { Progress } from '@/components/ui/progress';
 import { formatToPhp } from '@/lib/number-format';
-import { CalendarClock, Goal, HomeIcon, TargetIcon } from 'lucide-vue-next';
+import { CalendarClock, Goal } from 'lucide-vue-next';
 import { computed } from 'vue';
 import { format } from 'date-fns'
 
@@ -12,7 +12,7 @@ const { savingsGoal } = defineProps<{
     savingsGoal: SavingsGoal
 }>()
 
-const goalPercentage = computed(() => Math.round((savingsGoal.current_balance / savingsGoal.target_amount) * 100))
+const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoal.contributions_sum_amount || 0) / savingsGoal.target_amount) * 100)))
 </script>
 <template>
     <div class="space-y-2">
@@ -33,7 +33,7 @@ const goalPercentage = computed(() => Math.round((savingsGoal.current_balance / 
 
         <!-- Due Date -->
         <AppWithIcon :icon="CalendarClock" v-if="savingsGoal.deadline">{{ format(savingsGoal.deadline, 'MMM dd, yyyy')
-        }}</AppWithIcon>
+            }}</AppWithIcon>
         <AppWithIcon :icon="CalendarClock" v-else>Open date</AppWithIcon>
 
 
@@ -41,7 +41,8 @@ const goalPercentage = computed(() => Math.round((savingsGoal.current_balance / 
         <div class="text-muted-foreground space-y-2 text-xs">
             <div class="flex justify-between gap-4">
                 <span>Progress</span>
-                <span>{{ formatToPhp(savingsGoal.current_balance) }} / {{ formatToPhp(savingsGoal.target_amount)
+                <span>{{ formatToPhp(savingsGoal.contributions_sum_amount || 0) }} / {{
+                    formatToPhp(savingsGoal.target_amount)
                     }}</span>
             </div>
             <Progress :model-value="goalPercentage" />

@@ -8,7 +8,9 @@ import SavingsGoalTabs from './components/SavingsGoalTabs.vue';
 import SavingsGoalDetailDropdown from './components/SavingsGoalDetailDropdown.vue';
 import { AppFloatingButton } from '@/components/app/floating-button';
 import { savingsGoalIdKey } from '.';
+
 const ContributionCreateDialog = defineAsyncComponent(() => import('./contributions/components/ContributionCreateDialog.vue'))
+const ExpenseCreateDialog = defineAsyncComponent(() => import('./expenses/components/ExpenseCreateDialog.vue'))
 
 const { savingsGoalId } = defineProps<{
     savingsGoalId: string
@@ -19,6 +21,7 @@ await suspense()
 
 const savingsGoal = computed(() => data.value!)
 const { showContributionDialog, conributionDialogPending } = useContribute()
+const { expenseDialogPending, showExpenseDialog } = useSpend()
 
 function useContribute() {
     const showContributionDialog = ref(false)
@@ -30,6 +33,16 @@ function useContribute() {
     }
 }
 
+function useSpend() {
+    const showExpenseDialog = ref(false)
+    const expenseDialogPending = ref(false)
+
+    return {
+        showExpenseDialog,
+        expenseDialogPending
+    }
+}
+
 provide(savingsGoalIdKey, computed(() => +savingsGoalId))
 </script>
 <template>
@@ -37,7 +50,7 @@ provide(savingsGoalIdKey, computed(() => +savingsGoalId))
         <SavingsGoalDetailCard :savings-goal-detail="savingsGoal" />
         <SavingsGoalTabs :savings-goal-id="+savingsGoalId" />
 
-        <SavingsGoalDetailDropdown @conribution="showContributionDialog = true">
+        <SavingsGoalDetailDropdown @conribution="showContributionDialog = true" @expense="showExpenseDialog = true">
             <AppFloatingButton tooltip-text="Contribute/Spend" :loading="conributionDialogPending" />
         </SavingsGoalDetailDropdown>
 
@@ -45,6 +58,12 @@ provide(savingsGoalIdKey, computed(() => +savingsGoalId))
         <Suspense v-if="showContributionDialog" @pending="conributionDialogPending = true"
             @resolve="conributionDialogPending = false">
             <ContributionCreateDialog v-model="showContributionDialog" />
+        </Suspense>
+
+        <!-- Expense Dialog -->
+        <Suspense v-if="showExpenseDialog" @pending="expenseDialogPending = true"
+            @resolve="expenseDialogPending = false">
+            <ExpenseCreateDialog v-model="showExpenseDialog" />
         </Suspense>
     </div>
 </template>

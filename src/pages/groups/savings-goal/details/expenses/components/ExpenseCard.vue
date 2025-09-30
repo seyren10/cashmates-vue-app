@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Expense } from '@/features/expenses/type';
-import ExpenseCardItem from './ExpenseCardItem.vue';
 
 
 
@@ -11,7 +10,7 @@ const { expenses } = defineProps<{
 <template>
     <ul class="space-y-2">
         <li v-for="expense in expenses" :key="expense.id">
-            <ExpenseCardItem :expense="expense" />
+            <slot v-bind="expense" />
         </li>
     </ul>
 </template>

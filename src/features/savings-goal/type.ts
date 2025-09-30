@@ -13,14 +13,14 @@ export type SavingsGoal = WithTimestamp & {
   current_balance: number
   contributions_count: number
   expenses_count: number
+  contributions_sum_amount: number | null
+  expenses_sum_amount: number | null
 }
 
 export type SavingsGoalId = SavingsGoal['id']
 
 export type SavingsGoalDetail = SavingsGoal & {
   group: Group
-  contributions_sum_amount: number | null
-  expenses_sum_amount: number | null
 }
 
 export type SavingsGoalSchema = z.infer<typeof savingsGoalSchema>

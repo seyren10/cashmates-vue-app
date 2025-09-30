@@ -32,6 +32,7 @@ const user = computed(() => expense.user)
                 <Badge variant="destructive">
                     <MinusIcon /> {{ formatToPhp(expense.amount) }}
                 </Badge>
+                <slot name="actions" />
             </div>
             <p>{{ expense.description || '-' }}</p>
             <div class="aspect-square max-w-56 mx-auto" v-if="expense.media && expense.media.length">

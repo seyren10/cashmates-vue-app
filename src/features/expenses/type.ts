@@ -1,6 +1,8 @@
 import type { Media, WithTimestamp } from '@/types/common'
 import type { User, UserId } from '../auth/type'
 import type { SavingsGoalId } from '../savings-goal/type'
+import type { expenseSchema } from './schema'
+import type z from 'zod'
 
 export type Expense = WithTimestamp & {
   id: number
@@ -14,3 +16,8 @@ export type Expense = WithTimestamp & {
   media: Media[]
 }
 export type ExpenseId = Expense['id']
+
+export type ExpenseSchema = z.infer<typeof expenseSchema>
+
+export type CreateExpensePayload = ExpenseSchema
+export type UpdateExpensePayload = Partial<ExpenseSchema>
