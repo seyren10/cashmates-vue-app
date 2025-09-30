@@ -3,11 +3,13 @@ import AppWithIcon from '@/components/app/AppWithIcon.vue';
 import { Progress } from '@/components/ui/progress';
 import type { SavingsGoalDetail } from '@/features/savings-goal/type';
 import { formatToPhp } from '@/lib/number-format';
-import { CalendarCheck, CalendarClock, TargetIcon } from 'lucide-vue-next';
+import { CalendarCheck, CalendarClock, EditIcon, TargetIcon, Trash2 } from 'lucide-vue-next';
 import { computed } from 'vue';
 import SavingsGoalDetailTrend from './SavingsGoalDetailTrend.vue';
 import { Separator } from '@/components/ui/separator';
 import { formatDate } from 'date-fns';
+import { Button } from '@/components/ui/button';
+import SavingsGoalDetailActions from './SavingsGoalDetailActions.vue';
 
 
 const { savingsGoalDetail } = defineProps<{
@@ -20,9 +22,9 @@ const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoalDeta
 </script>
 
 <template>
-    <div class="border bg-card text-card-foreground rounded-xl p-4 space-y-6">
+    <div class="border bg-card text-card-foreground rounded-xl space-y-2">
         <!-- Goal Progress -->
-        <div class="text-center">
+        <div class="text-center py-4">
             <AppWithIcon :icon="TargetIcon">{{ savingsGoalDetail.name }}</AppWithIcon>
             <p class="text-primary font-bold text-2xl">
                 {{ formatToPhp(savingsGoalDetail.current_balance) }}
@@ -34,12 +36,12 @@ const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoalDeta
         </div>
 
         <!-- Progress Bar -->
-        <div class="text-muted-foreground space-y-2 text-xs">
+        <div class="text-muted-foreground space-y-2 text-xs p-4">
             <Progress :model-value="goalPercentage" />
             <div class="flex items-center justify-between gap-4">
                 <p>{{ formatToPhp(savingsGoalDetail.contributions_sum_amount || 0) }} / {{
                     formatToPhp(savingsGoalDetail.target_amount)
-                    }}</p>
+                }}</p>
                 <p>
                     {{ goalPercentage }} % completed
                 </p>
@@ -47,7 +49,7 @@ const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoalDeta
         </div>
 
         <!-- Due date -->
-        <div class="flex flex-col items-center gap-2">
+        <div class="flex flex-col items-center gap-2 p-4">
             <template v-if="savingsGoalDetail.deadline">
                 <AppWithIcon :icon="CalendarClock">Due date</AppWithIcon>
                 <p class="rounded-full border border-accent bg-accent/30 text-sm px-2">
@@ -68,6 +70,8 @@ const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoalDeta
         <SavingsGoalDetailTrend :contributions="savingsGoalDetail.contributions_sum_amount || 0"
             :expenses="savingsGoalDetail.expenses_sum_amount || 0" :total="savingsGoalDetail.current_balance" />
 
+        <!-- Actions -->
+        <SavingsGoalDetailActions :savings-goal-detail="savingsGoalDetail" />
     </div>
 </template>
 

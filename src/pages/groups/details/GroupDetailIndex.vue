@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { getGroupQueryOptions } from '@/features/groups/query-options';
-import { useQuery, useQueryClient } from '@tanstack/vue-query';
+import { useQuery } from '@tanstack/vue-query';
 import { computed, defineAsyncComponent, ref, Suspense } from 'vue';
 import GroupDetailSavingsGoalCard from '../components/savings-goals/GroupDetailSavingsGoalCard.vue';
 import GroupDetailSavingsGoalCardItem from '../components/savings-goals/GroupDetailSavingsGoalCardItem.vue';
 import { AppFloatingButton } from '@/components/app/floating-button';
 import GroupDetailSavingsGoalActions from '../components/savings-goals/GroupDetailSavingsGoalActions.vue';
-import { useSavingsGoalMutations } from '@/features/savings-goal/mutations';
-import type { SavingsGoal, SavingsGoalId } from '@/features/savings-goal/type';
 import { AppConfirmDialog } from '@/components/app/confirm-dialog';
 import GroupDetailSavingsGoalEditDialog from '../components/savings-goals/GroupDetailSavingsGoalEditDialog.vue';
+import { useUpdateDialog } from '@/features/savings-goal/composables/use-update-dialog';
+import { useDeleteDialog } from '@/features/savings-goal/composables/use-delete-dialog';
 const GroupDetailSavingsGoalCreateDialog = defineAsyncComponent(() => import('../components/savings-goals/GroupDetailSavingsGoalCreateDialog.vue'))
 
 const props = defineProps<{
@@ -30,57 +30,6 @@ function useCreateDialog() {
     return {
         openDialog,
         dialogPending
-    }
-}
-
-function useDeleteDialog() {
-
-    const openDeleteDialog = ref(false)
-    const { deleteMutation } = useSavingsGoalMutations()
-    const queryClient = useQueryClient()
-    const selectedSavingsGoal = ref<SavingsGoal | null>(null)
-
-
-    const handleOpenDeleteDialog = (savingsGoal: SavingsGoal) => {
-        selectedSavingsGoal.value = savingsGoal
-        openDeleteDialog.value = true
-    }
-
-    const handleDeleteSavingsGoal = async () => {
-        deleteMutation.mutate(selectedSavingsGoal.value?.id as SavingsGoalId, {
-            onSuccess: () => {
-                queryClient.setQueryData(getGroupQueryOptions(() => +props.groupId).queryKey, (group) => {
-                    if (group) {
-                        return {
-                            ...group,
-                            savings_goals: group.savings_goals.filter((savingsGoal) => savingsGoal.id !== selectedSavingsGoal.value?.id)
-                        }
-                    }
-                })
-                openDeleteDialog.value = false
-            }
-        })
-    }
-
-    return {
-        openDeleteDialog,
-        handleDeleteSavingsGoal,
-        handleOpenDeleteDialog
-    }
-}
-
-function useUpdateDialog() {
-    const selectedSavingsGoal = ref<SavingsGoal | null>(null)
-    const openEditDialog = ref(false)
-
-    const handleOpenEditDialog = (savingsGoal: SavingsGoal) => {
-        selectedSavingsGoal.value = savingsGoal
-        openEditDialog.value = true
-    }
-    return {
-        selectedSavingsGoal,
-        openEditDialog,
-        handleOpenEditDialog
     }
 }
 

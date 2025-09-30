@@ -3,12 +3,16 @@ import type { SavingsGoalId } from '@/features/savings-goal/type';
 import type { GroupId } from '@/features/groups/type';
 import { getContributionsQueryOptions } from '@/features/contributions/query-options';
 import { useQuery } from '@tanstack/vue-query';
-import { computed, defineAsyncComponent, ref, toValue, type MaybeRefOrGetter } from 'vue';
+import { computed, defineAsyncComponent, inject, ref, toValue, type MaybeRefOrGetter } from 'vue';
 import ContributionCard from './components/ContributionCard.vue';
 import ContributionCardItem from './components/ContributionCardItem.vue';
 import ContributionCardActions from './components/ContributionCardActions.vue';
 import type { Contribution, ContributionId } from '@/features/contributions/type';
 import { useContributionMutations } from '@/features/contributions/mutations';
+import AppEmptyResource from '@/components/app/AppEmptyResource.vue';
+import { Button } from '@/components/ui/button';
+import { PlusIcon } from 'lucide-vue-next';
+import { createContributionDialogKey } from '..';
 const ContributionEditDialog = defineAsyncComponent(() => import('./components/ContributionEditDialog.vue'))
 
 
@@ -51,10 +55,16 @@ function useDeleteContribution(savingsGoalId: MaybeRefOrGetter<SavingsGoalId>) {
         handleDeleteContribution
     }
 }
+
+/* PROVIDER CONSUMER */
+const showCreateContributionDialog = inject(createContributionDialogKey);
 </script>
 <template>
-    <div>
-        <ContributionCard :contributions="contributions" #default="contribution">
+    <div class="space-y-2">
+        <Button class="w-full" @click="showCreateContributionDialog = true" variant="outline">
+            <PlusIcon /> Contribute
+        </Button>
+        <ContributionCard :contributions="contributions" #default="contribution" v-if="contributions.length">
             <ContributionCardItem :contribution="contribution">
                 <template #actions>
                     <ContributionCardActions @edit="handleShowEditDialog(contribution)"
@@ -62,6 +72,14 @@ function useDeleteContribution(savingsGoalId: MaybeRefOrGetter<SavingsGoalId>) {
                 </template>
             </ContributionCardItem>
         </ContributionCard>
+        <AppEmptyResource v-else class="text-muted-foreground text-sm gap-2">
+            <p>
+                No contributions yet.
+            </p>
+            <Button size="sm" @click="showCreateContributionDialog = true">
+                <PlusIcon /> Contribute
+            </Button>
+        </AppEmptyResource>
 
 
         <!-- Edit dialog -->

@@ -7,7 +7,7 @@ import SavingsGoalDetailCard from './components/SavingsGoalDetailCard.vue';
 import SavingsGoalTabs from './components/SavingsGoalTabs.vue';
 import SavingsGoalDetailDropdown from './components/SavingsGoalDetailDropdown.vue';
 import { AppFloatingButton } from '@/components/app/floating-button';
-import { savingsGoalIdKey } from '.';
+import { createContributionDialogKey, createExpenseDialogKey, savingsGoalIdKey } from '.';
 
 const ContributionCreateDialog = defineAsyncComponent(() => import('./contributions/components/ContributionCreateDialog.vue'))
 const ExpenseCreateDialog = defineAsyncComponent(() => import('./expenses/components/ExpenseCreateDialog.vue'))
@@ -43,7 +43,12 @@ function useSpend() {
     }
 }
 
+
+/* PROVIDER */
 provide(savingsGoalIdKey, computed(() => +savingsGoalId))
+provide(createContributionDialogKey, showContributionDialog)
+provide(createExpenseDialogKey, showExpenseDialog)
+
 </script>
 <template>
     <div class="space-y-4" v-if="savingsGoalId">
