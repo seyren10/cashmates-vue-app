@@ -10,9 +10,14 @@ export const useSavingsGoalMutations = () => {
   const queryClient = useQueryClient()
 
   const invalidate = async () => {
-    queryClient.invalidateQueries({
-      queryKey: ['savings-goals', 'detail'],
-    })
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: ['savings-goals', 'detail'],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['groups'],
+      }),
+    ])
   }
   const handleError = (err: unknown) => {
     const error = err as CashmateError
@@ -22,10 +27,8 @@ export const useSavingsGoalMutations = () => {
   const createMutation = useMutation({
     mutationFn: ({ groupId, payload }: { groupId: GroupId; payload: CreateSavingsGoalPayload }) =>
       createSavingsGoal(groupId, payload),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: getGroupQueryOptions(data.group_id).queryKey,
-      })
+    onSuccess: async () => {
+      await invalidate()
     },
     onError: handleError,
   })
@@ -38,16 +41,17 @@ export const useSavingsGoalMutations = () => {
       savingsGoalId: SavingsGoalId
       payload: UpdateSavingsGoalPayload
     }) => updateSavingsGoal(savingsGoalId, payload),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: getGroupQueryOptions(data.group_id).queryKey,
-      })
+    onSuccess: async () => {
+      await invalidate()
     },
     onError: handleError,
   })
 
   const deleteMutation = useMutation({
     mutationFn: (savingsGoalId: SavingsGoalId) => deleteSavingsGoal(savingsGoalId),
+    onSuccess: async () => {
+      await invalidate()
+    },
     onError: handleError,
   })
 

@@ -7,10 +7,15 @@ import type { ContributionId, CreateContributionPayload, UpdateContributionPaylo
 
 export const useContributionMutations = (savingsGoalId: SavingsGoalId) => {
   const queryClient = useQueryClient()
-  const invalidate = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['savings-goals', 'detail', savingsGoalId],
-    })
+  const invalidate = async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: ['savings-goals', 'detail', savingsGoalId],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['groups'],
+      }),
+    ])
   }
 
   const handleError = (err: Error) => {
@@ -20,8 +25,8 @@ export const useContributionMutations = (savingsGoalId: SavingsGoalId) => {
 
   const createMutation = useMutation({
     mutationFn: (payload: CreateContributionPayload) => createContribution(savingsGoalId, payload),
-    onSuccess: (data) => {
-      invalidate()
+    onSuccess: async () => {
+      await invalidate()
     },
     onError: handleError,
   })
@@ -34,16 +39,16 @@ export const useContributionMutations = (savingsGoalId: SavingsGoalId) => {
       contributionId: ContributionId
       payload: UpdateContributionPayload
     }) => updateContribution(contributionId, payload),
-    onSuccess: (data) => {
-      invalidate()
+    onSuccess: async () => {
+      await invalidate()
     },
     onError: handleError,
   })
 
   const deleteMutation = useMutation({
     mutationFn: (contributionId: ContributionId) => deleteContribution(contributionId),
-    onSuccess: () => {
-      invalidate()
+    onSuccess: async () => {
+      await invalidate()
     },
     onError: handleError,
   })
