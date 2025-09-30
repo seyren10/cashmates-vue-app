@@ -14,7 +14,8 @@ const { savingsGoalDetail } = defineProps<{
     savingsGoalDetail: SavingsGoalDetail
 }>()
 
-const goalPercentage = computed(() => Math.round((savingsGoalDetail.current_balance / savingsGoalDetail.target_amount) * 100))
+const goalPercentage = computed(() => Math.min(100, Math.round(((savingsGoalDetail.contributions_sum_amount || 0) / savingsGoalDetail.target_amount) * 100)))
+
 
 </script>
 
@@ -22,13 +23,13 @@ const goalPercentage = computed(() => Math.round((savingsGoalDetail.current_bala
     <div class="border bg-card text-card-foreground rounded-xl p-4 space-y-6">
         <!-- Goal Progress -->
         <div class="text-center">
-            <AppWithIcon :icon="TargetIcon">Goal Progress</AppWithIcon>
+            <AppWithIcon :icon="TargetIcon">{{ savingsGoalDetail.name }}</AppWithIcon>
             <p class="text-primary font-bold text-2xl">
                 {{ formatToPhp(savingsGoalDetail.current_balance) }}
             </p>
 
-            <p class="text-sm">
-                of {{ formatToPhp(savingsGoalDetail.target_amount) }}
+            <p class="text-xs text-muted-foreground">
+                Net amount
             </p>
         </div>
 
@@ -36,9 +37,9 @@ const goalPercentage = computed(() => Math.round((savingsGoalDetail.current_bala
         <div class="text-muted-foreground space-y-2 text-xs">
             <Progress :model-value="goalPercentage" />
             <div class="flex items-center justify-between gap-4">
-                <p>{{ formatToPhp(savingsGoalDetail.current_balance) }} / {{
+                <p>{{ formatToPhp(savingsGoalDetail.contributions_sum_amount || 0) }} / {{
                     formatToPhp(savingsGoalDetail.target_amount)
-                }}</p>
+                    }}</p>
                 <p>
                     {{ goalPercentage }} % completed
                 </p>

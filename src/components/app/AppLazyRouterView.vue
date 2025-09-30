@@ -3,7 +3,6 @@ import { LoaderCircle } from 'lucide-vue-next';
 import { Suspense } from 'vue';
 import { RouterView } from 'vue-router';
 
-
 </script>
 
 <template>

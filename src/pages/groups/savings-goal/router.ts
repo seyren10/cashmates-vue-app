@@ -6,10 +6,7 @@ export const savingsGoalRoutes: RouteRecordRaw = {
     {
       path: ':savingsGoalId',
       name: 'savings-goal.detail',
-      components: {
-        default: () => import('./details/SavingsGoalDetailIndex.vue'),
-        header: () => import('./SavingsGoalHeader.vue'),
-      },
+      component: () => import('./details/SavingsGoalDetailIndex.vue'),
       props: true,
       children: [
         {
@@ -17,7 +14,7 @@ export const savingsGoalRoutes: RouteRecordRaw = {
           name: 'savings-goal.contributions.index',
           component: () => import('./details/contributions/SavingsGoalContributionIndex.vue'),
           props: (route) => ({
-            savingsGoalId: route.params.savingsGoalId,
+            savingsGoalId: +route.params.savingsGoalId,
           }),
         },
         {

@@ -1,5 +1,5 @@
 import type { WithTimestamp } from '@/types/common'
-import type { User, UserRole, UserWithPivot } from '../auth/type'
+import type { UserRole, UserWithPivot } from '../auth/type'
 import type { SavingsGoal } from '../savings-goal/type'
 import type z from 'zod'
 import type { groupSchema } from './schema'

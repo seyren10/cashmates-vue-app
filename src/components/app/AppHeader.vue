@@ -7,7 +7,7 @@ import AppButtonLoaderSwap from './AppButtonLoaderSwap.vue';
 const { state } = useNavigationState()
 </script>
 <template>
-    <div class="border-b">
+    <div class="border-b sticky top-0 bg-background z-10">
         <div class="p-4 flex justify-between items-center gap-4 ">
             <Button variant="ghost" size="icon" @click="$router.back()">
                 <AppButtonLoaderSwap :loading="state === 'loading'">
